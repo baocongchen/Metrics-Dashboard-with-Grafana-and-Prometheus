@@ -7,3 +7,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack --namespace m
 kubectl create namespace observability
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
 kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.37.0/jaeger-operator.yaml -n observability
+
+kubectl get pod -n monitoring | grep grafana
+kubectl port-forward -n monitoring prometheus-grafana-xxxxxx 3000
+navigate to localhost:3000, login with username:admin and password:prom-operator
