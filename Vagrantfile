@@ -82,6 +82,17 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
      sudo zypper --non-interactive install apparmor-parser
+     sudo zypper --non-interactive install git
+     source /usr/share/bash-completion/bash_completion
+     echo "source <(kubectl completion bash)" >> ~/.bashrc
+     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+     export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+     chmod 600 ~/.kube/config
+     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+     helm repo add stable https://charts.helm.sh/stable
+     helm repo update
+     kubectl create namespace monitoring
+     helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
   SHELL
 
   args = []
