@@ -12,6 +12,9 @@
 
 ## Describe SLO/SLI
 *TODO:* Describe, in your own words, what the SLIs are, based on an SLO of *monthly uptime* and *request response time*.
+A Service-Level Indicator (SLI) is a specific metric used to measure the performance of a service.
+- SLI for monthly uptime is percentage of server uptime in a monthly period
+- SLI for request response time is remote response latency 
 
 ## Creating SLI metrics.
 *TODO:* It is important to know why we want to measure certain metrics for our customer. Describe in detail 5 metrics to measure these SLIs. 
