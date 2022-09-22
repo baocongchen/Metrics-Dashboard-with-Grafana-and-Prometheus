@@ -1,5 +1,5 @@
 # Workflow to ensure whenever there is a push to Github main branch,
-# Github packages and pushes the new image for the Observability application to DockerHub.
+# Github packages and pushes the new image for the Observability Backend application to DockerHub.
 name: Observability Backend App - Package with Docker
 
 # Controls when the action will run.
