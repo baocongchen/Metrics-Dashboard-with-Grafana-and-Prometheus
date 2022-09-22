@@ -5,11 +5,10 @@ FROM python:3.7-slim
 # Copy local code to the container image.
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY . ./
+COPY ./reference-app/backend/ ./
 
 ARG PROJECT_ID
 ENV PROJECT_ID ${PROJECT_ID}
-
 
 # Install production dependencies.
 RUN apt-get update && \
