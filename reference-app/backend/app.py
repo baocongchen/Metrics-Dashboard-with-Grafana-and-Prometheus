@@ -43,19 +43,21 @@ def homepage():
 @app.route("/api")
 def my_api():
     with tracer.start_span('api') as span:
-        answer = "something"
-        span.set_tag('api-tag', "Hello, world!")
+        answer = "Hello, world!"
+        span.set_tag('api-tag', answer)
     return jsonify(repsonse=answer)
 
 
 @app.route("/star", methods=["POST"])
 def add_star():
-    star = mongo.db.stars
-    name = request.json["name"]
-    distance = request.json["distance"]
-    star_id = star.insert({"name": name, "distance": distance})
-    new_star = star.find_one({"_id": star_id})
-    output = {"name": new_star["name"], "distance": new_star["distance"]}
+    with tracer.start_span('star') as span:
+        star = mongo.db.stars
+        name = request.json["name"]
+        distance = request.json["distance"]
+        star_id = star.insert({"name": name, "distance": distance})
+        new_star = star.find_one({"_id": star_id})
+        output = {"name": new_star["name"], "distance": new_star["distance"]}
+        span.set_tag('star-tag', 'star')
     return jsonify({"result": output})
 
 
