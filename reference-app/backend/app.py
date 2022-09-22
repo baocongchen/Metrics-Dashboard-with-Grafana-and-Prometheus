@@ -5,7 +5,7 @@ import pymongo
 from flask_pymongo import PyMongo
 from jaeger_client import Config
 from prometheus_flask_exporter import PrometheusMetrics
-
+from flask_opentracing import FlaskTracing
 
 app = Flask(__name__)
 
@@ -31,7 +31,8 @@ config = Config(
     },
     service_name="backend"
 )
-tracer = config.initialize_tracer()
+jaeger_tracer = config.initialize_tracer()
+tracing = FlaskTracing(jaeger_tracer, True, app)
 
 @app.route("/")
 def homepage():
