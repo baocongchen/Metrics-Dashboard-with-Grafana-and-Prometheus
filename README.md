@@ -8,7 +8,7 @@
 ![Grafana Home Page](https://github.com/baocongchen/Metrics-Dashboard-with-Grafana-and-Prometheus/blob/main/answer-img/grafana-homepage.png "Grafana Home Page")
 
 ## Create a Basic Dashboard
-*TODO:* Create a dashboard in Grafana that shows Prometheus as a source. Take a screenshot and include it here.
+![Grafana Dashboard](https://github.com/baocongchen/Metrics-Dashboard-with-Grafana-and-Prometheus/blob/main/answer-img/grafana-dashboard.png "Grafana Dashboard")
 
 ## Describe SLO/SLI
 
