@@ -17,7 +17,7 @@ A Service-Level Indicator (SLI) is a specific metric used to measure the perform
 - SLI for *request response time* is remote response latency 
 
 ## Creating SLI metrics.
-*TODO:* It is important to know why we want to measure certain metrics for our customer. Describe in detail 5 metrics to measure these SLIs. 
+
 1. 99.95% of all response codes from Backend app in the last one month are in 200-399 range. 
 2. 0.04% of all response codes from Backend app in the last one month are in 400-499 range. 
 3. 0.01% of all response codes from Backend app in the last one month are in 500-599 range. 
