@@ -28,6 +28,35 @@ kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operato
 #kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator.yaml
 #kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role.yaml
 #kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role_binding.yaml
+// For versioning
+export namespace=observability
+export jaeger_version=v1.28.0
+
+kubectl create namespace ${namespace}
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/crds/jaegertracing.io_jaegers_crd.yaml
+kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/service_account.yaml
+kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/role.yaml
+kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/role_binding.yaml
+kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/operator.yaml
+
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/cluster_role.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/cluster_role_binding.yaml
+
+// Create a jaeger instance
+mkdir -p jaeger-tracing
+cat >> jaeger-tracing/jaeger.yaml <<EOF
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: my-traces
+  namespace: ${namespace}
+EOF
+kubectl apply -n ${namespace} -f jaeger-tracing/jaeger.yaml
+
+// Access Jaeger UI on Browser
+kubectl port-forward -n ${namespace} \
+    $(kubectl get pods -n ${namespace} -l=app="jaeger" -o name) --address 0.0.0.0 16686:16686
+// then access http://localhost:8088/search for UI
 
 #kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
 #kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.37.0/jaeger-operator.yaml -n observability
@@ -45,11 +74,23 @@ kubectl delete namespace observability
 
 #kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.3/deploy/static/provider/cloud/deploy.yaml
 
-# Change type of svc prometheus-grafana to nodePort, add node port 30000
-kubectl port-forward deployment/prometheus-grafana 30000 -n monitoring
+kubectl port-forward deploy/prometheus-grafana --address 0.0.0.0 3000 -n monitoring
 navigate to vagrant private ip:30000, login with username:admin and password:prom-operator
 kubectl port-forward svc/frontend-service 8080:8080
 
 Delete a namespace and all its resources using the commands
 kubectl proxy
 kubectl get ns observability -o json |   jq '.spec.finalizers=[]' |   curl -X PUT http://localhost:8001/api/v1namespaces/observability/finalize -H "Content-Type: application/json" --data @-
+
+// execute right after vagrant up
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+     helm repo add stable https://charts.helm.sh/stable
+     helm repo update
+     chmod 600 ~/.kube/config
+     kubectl create namespace monitoring
+     export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+     helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
+
+// Before creating deployment in "other" directory execute
+kubectl create -f https://download.elastic.co/downloads/eck/1.8.0/crds.yaml
+kubectl apply -f https://download.elastic.co/downloads/eck/1.8.0/operator.yaml

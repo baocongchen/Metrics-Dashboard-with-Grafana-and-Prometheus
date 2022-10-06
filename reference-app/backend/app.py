@@ -38,7 +38,7 @@ config = Config(
             'reporting_host': JAEGER_AGENT_HOST
         },
     },
-    service_name="backend"
+    service_name="backend-service"
 )
 jaeger_tracer = config.initialize_tracer()
 tracing = FlaskTracing(jaeger_tracer, True, app)

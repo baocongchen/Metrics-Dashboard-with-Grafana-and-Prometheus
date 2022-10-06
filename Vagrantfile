@@ -69,7 +69,7 @@ Vagrant.configure("2") do |config|
   #
   #   # Customize the amount of memory on the VM:clear
 
-    vb.memory = "4096"
+    vb.memory = "6096"
     #vb.memory = "2048"
     vb.name = "k3s"
   end
@@ -87,12 +87,7 @@ Vagrant.configure("2") do |config|
      echo "source <(kubectl completion bash)" >> ~/.bashrc
      curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
      export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-     chmod 600 ~/.kube/config
-     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-     helm repo add stable https://charts.helm.sh/stable
-     helm repo update
-     kubectl create namespace monitoring
-     helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
+     
   SHELL
 
   args = []
