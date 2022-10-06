@@ -1,7 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-app
+  name: backend
+  annotations:
+    sidecar.jaegertracing.io/inject: 'true'
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: backendport
+  labels:
+    name: backend
+    release: prometheus
+    monitoring: 'true'
 spec:
   replicas: 3
   selector:
@@ -17,6 +26,9 @@ spec:
         image: ghcr.io/jasonsmithio/backend:v1
         ports:
         - containerPort: 8081
+        env:
+        - name: JAEGER_AGENT_HOST
+          value: simpletest-agent.observability.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
@@ -27,5 +39,24 @@ spec:
     app: backend
   ports:
     - port: 8081
-      targetPort: 8080
+      targetPort: 8081 # port of backend app container
   type: LoadBalancer
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: backend-monitor
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  endpoints:
+  - port: 8081
+    interval: 30s
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app: backend
