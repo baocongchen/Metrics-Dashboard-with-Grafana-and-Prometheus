@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: trial
-        image: ghcr.io/jasonsmithio/trial:v1
+        image: petetran/observability-backend-app
         imagePullPolicy: Always
         ports:
         - name: trialport
