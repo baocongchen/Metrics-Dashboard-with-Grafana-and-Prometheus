@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ghcr.io/jasonsmithio/backend:v1
+        image: petetran/observability-backend-app
         ports:
         - containerPort: 8081
           name: backend-app
