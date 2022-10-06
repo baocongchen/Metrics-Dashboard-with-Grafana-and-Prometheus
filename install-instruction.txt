@@ -48,7 +48,7 @@ cat >> jaeger-tracing/jaeger.yaml <<EOF
 apiVersion: jaegertracing.io/v1
 kind: Jaeger
 metadata:
-  name: my-traces
+  name: simpletest
   namespace: ${namespace}
 EOF
 kubectl apply -n ${namespace} -f jaeger-tracing/jaeger.yaml
