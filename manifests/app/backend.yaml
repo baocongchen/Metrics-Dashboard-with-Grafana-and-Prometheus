@@ -26,7 +26,7 @@ spec:
         image: ghcr.io/jasonsmithio/backend:v1
         ports:
         - containerPort: 8081
-          name: backend-app-port
+          name: backend-app
         env:
         - name: JAEGER_AGENT_HOST
           value: simpletest-agent.observability.svc.cluster.local
@@ -40,8 +40,8 @@ spec:
     app: backend
   ports:
     - port: 8081
-      name: backend-service-port
-      targetPort: backend-app-port # port of backend app container
+      name: backend-svc
+      targetPort: backend-app # port of backend app container
   type: NodePort
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -53,8 +53,8 @@ metadata:
     release: prometheus
 spec:
   endpoints:
-  - port: backend-service-port
-    targetPort: backend-app-port
+  - port: backend-svc
+    targetPort: backend-app
     interval: 30s
     path: /metrics
   namespaceSelector:
