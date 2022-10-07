@@ -47,6 +47,7 @@ spec:
     targetPort: backend-app
   selector:
     app: backend
+  type: LoadBalancer
 status:
   loadBalancer: {}
 ---
