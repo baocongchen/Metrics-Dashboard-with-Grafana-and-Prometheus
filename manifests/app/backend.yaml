@@ -12,7 +12,7 @@ metadata:
     release: prometheus
     monitoring: 'true'
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -50,6 +50,7 @@ metadata:
   name: backend-monitor
   namespace: monitoring
   labels:
+    app: backend
     release: prometheus
 spec:
   endpoints:
