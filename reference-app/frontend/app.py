@@ -8,11 +8,16 @@ metrics = PrometheusMetrics(app)
 
 metrics.info("frontend_app_info", "Frontend App Info", version="1.0.3")
 
-by_path_counter = metrics.register_default(
+metrics.register_default(
     metrics.counter(
         'by_path_counter', 'Request count by paths',
         labels={'path': lambda: request.path}
     )
+)
+
+by_endpoint_counter = metrics.counter(
+    'by_endpoint_counter', 'Request count by endpoint',
+    labels={'endpoint': lambda: request.endpoint}
 )
 
 config = Config(
@@ -29,7 +34,7 @@ config = Config(
 tracer= config.initialize_tracer()
 
 @app.route("/")
-@by_path_counter
+@by_endpoint_counter
 def homepage():
     with tracer.start_span('html'):
         return render_template("main.html")
