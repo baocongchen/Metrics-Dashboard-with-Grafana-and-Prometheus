@@ -25,10 +25,10 @@ A Service-Level Indicator (SLI) is a specific metric used to measure the perform
 5. 50% of 300Mbps Network Bandwidth is utilized on weekdays in the past one month.
 
 ## Create a Dashboard to measure our SLIs
-*TODO:* Create a dashboard to measure the uptime of the frontend and backend services We will also want to measure to measure 40x and 50x errors. Create a dashboard that show these values over a 24 hour period and take a screenshot.
+![Uptime](https://github.com/baocongchen/Metrics-Dashboard-with-Grafana-and-Prometheus/blob/main/answer-img/uptime.png "Uptime")
 
 ## Tracing our Flask App
-*TODO:*  We will create a Jaeger span to measure the processes on the backend. Once you fill in the span, provide a screenshot of it here. Also provide a (screenshot) sample Python file containing a trace and span code used to perform Jaeger traces on the backend service.
+Jaeger Tracing was implemented in reference-app/backend/app.py and reference-app/frontend/app.py
 
 ## Jaeger in Dashboards
 *TODO:* Now that the trace is running, let's add the metric to our current Grafana dashboard. Once this is completed, provide a screenshot of it here.
@@ -52,7 +52,7 @@ Description:
 
 
 ## Creating SLIs and SLOs
-*TODO:* We want to create an SLO guaranteeing that our application has a 99.95% uptime per month. Name four SLIs that you would use to measure the success of this SLO.
+
 
 ## Building KPIs for our plan
 *TODO*: Now that we have our SLIs and SLOs, create a list of 2-3 KPIs to accurately measure these metrics as well as a description of why those KPIs were chosen. We will make a dashboard for this, but first write them down here.

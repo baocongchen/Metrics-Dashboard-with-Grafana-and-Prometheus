@@ -81,6 +81,7 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+     sudo zypper --non-interactive install apparmor
      sudo zypper --non-interactive install apparmor-parser
      sudo zypper --non-interactive install git
      source /usr/share/bash-completion/bash_completion
