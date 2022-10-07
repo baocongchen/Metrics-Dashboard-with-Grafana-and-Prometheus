@@ -11,7 +11,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack --namespace m
 
 #helm uninstall prometheus-community/kube-prometheus-stack --namespace monitoring
 #force delete all pods in monitoring namespace then delete prometheus secret in monitoring namespace
-
+# grafana default username: admin, and password: prom-operator
 kubectl create namespace observability 
 kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.24.0/deploy/crds/jaegertracing.io_jaegers_crd.yaml 
 kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.24.0/deploy/service_account.yaml 

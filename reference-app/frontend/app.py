@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from prometheus_flask_exporter import PrometheusMetrics
+from jaeger_client import Config
 
 app = Flask(__name__)
 
@@ -14,11 +15,24 @@ by_path_counter = metrics.register_default(
     )
 )
 
+config = Config(
+    config={
+        'sampler': {
+            'type': 'const',
+            'param': 1,
+        },
+        'logging': True,
+    },
+    service_name='frontend'
+)
+
+tracer= config.initialize_tracer()
 
 @app.route("/")
 @by_path_counter
 def homepage():
-    return render_template("main.html")
+    with tracer.start_span('html'):
+        return render_template("main.html")
 
 
 
