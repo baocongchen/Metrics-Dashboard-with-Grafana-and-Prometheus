@@ -34,15 +34,21 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service
+  creationTimestamp: null
+  labels:
+    monitoring: "true"
+    name: backend
+    release: prometheus
+  name: backend
 spec:
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: backend-app
   selector:
     app: backend
-  ports:
-    - port: 8081
-      name: backend-svc
-      targetPort: backend-app # port of backend app container
-  type: NodePort
+status:
+  loadBalancer: {}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
